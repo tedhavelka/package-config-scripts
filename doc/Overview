@@ -1,0 +1,36 @@
+----------------------------------------------------------------------
+                           Installs de Alta
+ Debian Linux post-install Package Installer and Configuration Script
+                             2005 to 2008
+----------------------------------------------------------------------
+
+
+
+OVERVIEW:
+
+This project consists of bash-based scripts and supporting data files
+to simplify and automate useful customizations of a base install of
+Debian Linux on a typical desktop computer.
+
+Things which the install scripts can perform include,
+
+
+    *  installation of end-user packages for:
+        +  typical desktop station with window managers, office apps,
+    *  configuration of APT packages source list file,
+    *  enabling of hostname publication for DHCP-configured systems,
+    *  relaxing of X11 forwarding settings,
+    *  configuration of Cyclades multi-port serial card module,
+    *  
+
+Alternate post-base-install configurations to come,
+
+        +  production floor test station,
+        +  server to provide mail, web pages and mysql database,
+        +  lightweight install for older computers,
+
+
+
+USAGE:
+
+. . .

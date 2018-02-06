@@ -1,0 +1,19 @@
+##----------------------------------------------------------------------
+#   PROJECT:  Change Log for "Installs de Alta"
+#
+#   DESCRIPTION:  Debian package installer and system configuration
+#     script
+#
+#   AUTHORS AND CONTRIBUTORS:
+#     Ted Havelka     ted@cs.dpx.edu     (TMH)
+##----------------------------------------------------------------------
+
+2009-12-01  Modified archive-installer script to bundle this project's
+            subdirectories and all their contained files,
+
+2008-07-07  Wrote script to read multi-column file with # comments,
+            parses arbitrary column from non-comment lines,
+
+2008-07-03  Preparing to move list of supporting project files out
+            of 'update-installer.sh' script . . . TMH
+

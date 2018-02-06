@@ -1,0 +1,46 @@
+# 
+# deb cdrom:[Debian GNU/Linux 4.0 r0 _Etch_ - Official i386 NETINST Binary-1 20070407-11:29]/ etch contrib main
+#
+
+##--------------------------------------------------------------------
+## 2008-03-05  MIE
+##  Ted changed release references from 'etch' to 'testing'.  Release
+##  etch as of this date is stable, and there's a bug with the latest
+##  stable nautilus package such that browsing samba shares is
+##  broken.  Trying to resolve that problem on host agave . . .
+##--------------------------------------------------------------------
+
+
+deb http://ftp.us.debian.org/debian/ testing main contrib
+deb-src http://ftp.us.debian.org/debian/ testing main contrib
+
+deb http://linux.csua.berkeley.edu/debian/ testing main contrib
+deb-src http://linux.csua.berkeley.edu/debian/ testing main contrib
+
+deb http://debian.osuosl.org/debian/ testing main contrib
+deb-src http://debian.osuosl.org/debian/ testing main contrib
+
+deb http://ftp.utexas.edu/debian/ testing main contrib
+deb-src http://ftp.utexas.edu/debian/ testing main contrib
+
+deb http://mirrors.kernel.org/debian/ testing main contrib
+deb-src http://mirrors.kernel.org/debian/ testing main contrib
+
+# deb  testing main contrib
+# deb-src  testing main contrib
+
+
+
+## 2008-03-06  Attempt to locate and download XForms package
+##  libforms-dev . . .
+
+deb http://ftp.us.debian.org/debian/ sid main contrib
+deb-src http://ftp.us.debian.org/debian/ sid main contrib
+
+
+
+## Security Updates from security.debian.org:
+
+deb http://security.debian.org/ testing/updates main contrib
+deb-src http://security.debian.org/ testing/updates main contrib
+

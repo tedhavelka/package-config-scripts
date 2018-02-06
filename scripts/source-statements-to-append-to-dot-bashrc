@@ -1,0 +1,15 @@
+
+
+
+
+BASH_RUNTIME_CONFIG_AMENDMENTS_FILE=${HOME}/.bashrc-amendments
+BASH_RUNTIME_CONFIG_AMENDMENTS_FILE=${HOME}/dot-bashrc-amendments.sh
+
+if [ -e ${BASH_RUNTIME_CONFIG_AMENDMENTS_FILE} ]; then 
+    . ${BASH_RUNTIME_CONFIG_AMENDMENTS_FILE}
+fi
+
+
+
+
+# --- EOF ---

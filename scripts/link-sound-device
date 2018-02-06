@@ -1,0 +1,311 @@
+#!/bin/bash
+
+#---------------------------------------------------------------------
+#  2006-01-30
+#
+#  Author:  Ted Havelka     ted@cs.pdx.edu     (TMH)
+#
+#
+#
+#  Note:  Ted wrote this script to resolve a strange problem where
+#  the DSP device is created in /dev/.static/dev/ without appropriate
+#  linking and permissions set on device and parent directories.
+#  This problem appeared after the installation of the 2.6.12-1-386
+#  kernel.
+#
+#  As of 2006-02-09 Ted found it sufficient on Debian Linux hosts
+#  to place this script in /dev/init.d, and then to create symbolic
+#  links to it in the start-up or "run level" directories,
+#
+#      /etc/rc2.d
+#      /etc/rc3.d
+#      /etc/rc4.d
+#      /etc/rc5.d
+#
+#  Ted chose these directories by running the following command,
+#
+#      find /etc/rc* -name '*gdm*'
+#
+#  This shows me all the directories in which there are links to
+#  start or to stop the Gnome Desktop Manager, which I install on
+#  the Linux system in Alta.  You could choose an alternate pattern
+#  based on some other program which you know is started at boot
+#  time, and in particular when the system boots up into multi-user
+#  mode.  That's why I choose a program related to a the system's
+#  default graphical user interface.  That's something that should
+#  only be invoked if the system boots without problems and makes it
+#  to multi-user mode.
+#
+#  At the time of writing, I noted that my find command shows four
+#  rcX.d directories, where X is one of 2, 3, 4, or 5.  In all four
+#  of these run levels gdm is invoked with the option to start, as
+#  indicated by the symbolic link names beginning with an uppercase
+#  'S'.
+#
+#  Into these directories I place similar symlinks to this script.
+#
+#  - TMH
+#
+#---------------------------------------------------------------------
+
+
+
+
+#---------------------------------------------------------------------
+#  SECTION:  script variables
+#---------------------------------------------------------------------
+
+scriptname=`basename $0`
+scriptname_for_installs="link-sound-device"
+symlink_prefix="S99z-"
+symlink_postfix="-link-sound-device"
+init_dir="/etc/init.d"
+
+# Variables to link static sound device to traditional location in
+# /dev:
+
+symlink=/dev/dsp
+static_device_parent_dir=/dev/.static
+static_device_dir=/dev/.static/dev
+sound_device=${static_device_dir}/dsp
+directory_permissions=755
+device_permissions=660
+
+# Variables to link this script in one or more rc.d directories:
+
+base_dir=/etc
+relative_dir=../init.d
+directories="rc2 rc3 rc4 rc5"
+
+
+
+
+#---------------------------------------------------------------------
+#  SECTION:  script functions defined
+#---------------------------------------------------------------------
+
+usage()
+{
+    echo "Script '$scriptname' usage:"
+    echo
+    echo "$scriptname [ options ]"
+    echo
+    echo "Options include:"
+    echo
+    echo "    -i | --install        . . . install the script in $init_dir and create start-up symlinks,"
+    echo "    -l | --link | start   . . . create start-up symlinks,"
+    echo "    -u | --unlink         . . . remove start-up symlinks,"
+    echo
+    echo "Start-up symbolic links are created in these directories:"
+    echo
+
+    for start_up_dir in $directories; do
+        echo ${base_dir}/${start_up_dir}.d
+    done
+
+    echo
+    echo "Note:  this script is normally run as root"
+    echo
+}
+
+
+
+md5sum_checks()
+{
+#---------------------------------------------------------------------
+# 2006-11-28  This routine in progress, not yet used for linking
+#   sound devices or installing this script.
+#---------------------------------------------------------------------
+
+# a3b10123f4ac31761456dd5f5082ec9e  /usr/bin/md5sum
+# b4092211c399e484b46c840b93b209ff  ./link-sound-device
+
+    local checksumming_utility=`which md5sum`
+    local checksum_md5sum
+    local checksum_script
+
+    if [ -e ${checksumming_utility} ]
+    then
+        checksum_md5sum=`${checksumming_utility} ${checksumming_utility}`
+        echo "$scriptname:  ${checksumming_utility} checksum = ${checksum_md5sum}"
+    else
+        echo "$scriptname:  ${checksumming_utility} not found,"
+    fi
+
+}
+
+
+
+install_script()
+{
+    local script=$0
+    local script_installed=${init_dir}/${script}
+
+    if [ -e $script_installed ]; then
+        echo "${scriptname}:  script ${script} already appears to be installed in ${init_dir},"
+    else
+        echo "${scriptname}:  copying ${script} to ${init_dir},"
+        cp ${script} ${init_dir}/${scriptname_for_installs};
+        echo "${scriptname}:  creating links in start-up dirs,"
+        link_script
+    fi
+}
+
+
+
+link_script()
+{
+    local directory
+    local start_up_dir
+    local symlink
+    local script
+
+    script=${init_dir}/${scriptname_for_installs}
+    if [ -e ${script} ]; then
+        echo "$scriptname:  found ${scriptname_for_installs} in ${init_dir},"
+
+        for directory in $directories; do
+            start_up_dir=${base_dir}/${directory}.d
+            symlink=${symlink_prefix}${directory}${symlink_postfix}
+            cd $start_up_dir
+            echo "$scriptname:  creating link `pwd`/${symlink} to ${relative_dir}/$scriptname_for_installs,"
+            ln -s ${relative_dir}/${scriptname_for_installs} ${symlink}
+        done
+
+    else
+        echo "$scriptname:  this script does not appear to be installed in $init_dir,"
+        echo "$scriptname:  running this script with -i option installs it and creates"
+        echo "$scriptname:  symlinks to itself in appropriate system run-level directories."
+        usage
+    fi
+}
+
+
+
+unlink_script()
+{
+    local directory
+    local start_up_dir
+    local symlink
+    local symlink_generic_name="*link-sound*"
+
+    for directory in $directories; do
+        start_up_dir=${base_dir}/${directory}.d
+        cd ${start_up_dir}
+        symlink=`ls ${symlink_generic_name}`
+
+        if [ -e $symlink ]; then
+            echo "${scriptname}:  in `pwd` removing symlink $symlink,"
+            rm ${symlink_generic_name}
+        else
+            echo "${scriptname}:  no symlink found in `pwd`,"
+        fi
+    done
+}
+
+
+
+link_sound_device()
+{
+
+    local result="false"
+
+
+    if [ -e $symlink ]
+        then
+        echo "$scriptname:  found symlink $symlink,"
+        echo "$scriptname:  setting permissions to $device_permissions on ${sound_device},"
+        chmod $device_permissions ${sound_device}
+        chown "root:audio" ${sound_device}
+        result="true"
+    else
+        if [ -e $sound_device ]
+            then
+            echo "$scriptname:  creating symlink to static sound device,"
+            ln -s $sound_device $symlink
+            result="true"
+        else
+            echo "$scriptname:  no static sound device found,"
+            echo "$scriptname:  you may need to run alsaconf as root to configure sound,"
+            echo "$scriptname:  checking path to static devices . . ."
+            ls -l $static_device_parent_dir
+            ls -l $static_device_dir
+        fi
+    fi
+
+
+    if [[ $result = "true" ]]; then
+        echo "$scriptname:  setting permissions to $directory_permissions on static device dir,"
+        chmod $directory_permissions $static_device_dir
+        echo "$scriptname:  setting permissions to $directory_permissions on static device parent dir,"
+        chmod $directory_permissions $static_device_parent_dir
+    else
+        echo "$scriptname:  pausing 5 seconds before looking for static device directory . . . "
+        sleep 5
+        if [ -e $sound_device ]
+            then
+            echo "$scriptname:  creating symlink to static sound device,"
+            ln -s $sound_device $symlink
+            result="true"
+        fi
+    fi
+}
+
+
+
+#---------------------------------------------------------------------
+#  SECTION:  the action begins here . . .
+#
+#  Note:  as a start-up script in /etc/init.d, pointed to by links
+#  in run-level directories in /etc, this script appears to be called
+#  by initd or similarly named with the argument 'start'.  We design
+#  the script to link the static sound device on udev-based Linux
+#  systems when the 'start' argument is the first argument given to
+#  it.  See the branches in the case statement below.
+#---------------------------------------------------------------------
+
+if [[ $# -gt 0 ]]; then
+    case "$1" in
+
+        -c|--checksum) md5sum_checks ;; # ...this routine not complete, 2006-11-20
+
+        -i|--install) install_script ;;
+
+        -l|--link) link_script ;;
+
+        -u|--unlink) unlink_script ;;
+
+        start) link_sound_device ;;
+
+        *)
+            usage
+            echo "$scriptname:  called with $# arguments,"
+            echo "$scriptname:  first argument '$1' not recognized,"
+            echo "$scriptname:  \$0 holds '$0',"
+            echo "$scriptname:  \$1 holds '$1',"
+            echo "$scriptname:  \$2 holds '$2',"
+            ;;
+
+    esac
+else
+
+#
+# Else if this script is called with no arguments,
+# attempt to link /dev/dsp to static sound device . . .
+#
+
+    link_sound_device
+
+#    echo "$scriptname:  listing permissions of static device parent directory $static_device_parent_dir"
+#    ls -ld $static_device_parent_dir
+#    echo "$scriptname:  listing permissions of static device directory $static_device_dir"
+#    ls -ld $static_device_dir
+#    echo "$scriptname:  listing permissions of sound device $sound_device"
+#    ls -l $sound_device
+
+fi
+
+
+
+echo "$scriptname:  done."
+exit 0

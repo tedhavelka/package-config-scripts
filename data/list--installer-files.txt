@@ -1,0 +1,10 @@
+CHANGE-LOG.TXT
+diagnostics.sh
+installs-de-alta.sh
+link-sound-device
+list--extra-packages.txt
+list--installer-files.txt
+read-packages.sh
+sources.list
+TODO-ALTA-INSTALLS.TXT
+update-installer.sh

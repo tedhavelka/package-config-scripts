@@ -1,0 +1,69 @@
+----------------------------------------------------------------------
+            Alta Package Installation and Config Script
+                            To-Do List
+----------------------------------------------------------------------
+
+
+
+SECTION:  changes and new features to add
+
+[ ]  add option to enable X11 forwarding,
+
+[ ]  add option to show user a specific APT source.list file,
+     and optionally copy that to /etc/apt for use on the target
+     system,
+
+
+[ ]  add options for:
+     1) production floor install,
+     2) developer's desktop install,
+     3) minimal windowed-environment install,
+     4) support for "no xserver" install,
+
+     Note:  separate post-install package list file with multiple
+     columns could be used 
+
+
+[ ]  add script ability to check for and download non-distro packages
+     such as pine, Java Runtime Environment and Macromedia flash plugin,
+
+
+[p]  add configuration option to enable hostname publishing, via
+     change to /etc/dhcp3/dhcp.client file,
+
+
+[x]  add user-specific .bashrc script, set aside original such
+     script in user's homedir.
+
+     <i>
+       Note:  dot bashrc amendments are now as of 2018 for some years
+       realized in a separate script which may be sourced at the end
+       of the as-found .bashrc file . . .   - TMH
+     </i>
+
+
+[p]  check /etc/apt/sources.list file for reference to cdrom,
+     if present ask user if they want to comment that out,
+
+
+
+//--------------------------------------------------------------------
+// SECTION:  added features
+//--------------------------------------------------------------------
+
+[x]  2008-07-18 resolved 'xrdb command not found' warning which comes
+     with install on 2008-07-07.  Added package x11-xserver-utils.
+
+[x]  2007-09-21 added Cyclades module configuration to script.
+
+[x]  2007-09-21 added safer interactive modes aliased for root user
+     for commands cp, mv and ls.
+
+
+
+
+//--------------------------------------------------------------------
+// SECTION:  installer script implemtation details
+//--------------------------------------------------------------------
+
+Packages assigned to script variables within the script are becoming cumbersome to update.  Ted wants to move the post-install packages list out of the script to a separate, multi-field file.  In this case multi-field is synonymous with multi-column.  Lines of the post-install packages list file will contain package names, category for package, indicator of distribution of which package is a part or member, and other notes.

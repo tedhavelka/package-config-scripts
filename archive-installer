@@ -1,0 +1,228 @@
+#!/bin/bash
+
+##======================================================================
+##
+##  FILENAME:  update-installer
+##
+##  MODIFIED:  2007-09-21, 2017-01-05, 2018-02-02
+##
+##  DESCRIPTION:  a file bundling script for the Package Config Scripts
+##    project, also called 'Installs de Alta'.
+##
+##
+##  AUTHORS AND CONTRIBUTORS:
+##
+##     *  Ted Havelka     ted@cs.pdx.edu     (TMH)
+##
+##
+##======================================================================
+
+
+
+
+##----------------------------------------------------------------------
+##  SECTION:  global script variables
+##
+##  Note:  this script expects the user running it to have a local
+##    'bin' directory present in their homedir,  - TMH
+##----------------------------------------------------------------------
+
+scriptname=`basename $0`
+host_name=`hostname`
+user_name=`whoami`
+# status=0 . . . 'status' appears to be a shell built-in or key word - TMH
+CP="/bin/cp -p"
+GZIP="/bin/gzip"
+
+
+#
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## 2018-02-02 - Some identifiers for the installs-de-alta package
+##  configuration script and helper files:
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+
+# An arbitrary hard-coded starting version number, Ted wants to improve:
+project_version="1.0"
+
+# Project title pulls together historic name and version number:
+project_title="'Installs de Alta' version ${project_version}"
+
+# Project name that's easy to type and has no white space:
+project_name="installs-de-alta"
+
+# A conventional *nix location where this project may be installed for use:
+#project_dir="${HOME}/bin/installs-de-alta"
+project_dir="${HOME}/bin/$project_name"
+
+# Temporary directory used by this bundling script to gather project
+# directories and files together for archiving:
+bundle_directory="./installs-de-alta-bundling-directory"
+
+
+
+
+# Note:  following global variables are intended to describe in brief
+# the purpose of scripts and documents related to Alta installs.  It
+# may make sense to place script names and document names along with
+# descriptions of each file in a separate file which this script
+# could then parse,  - TMH 
+
+data_dir="./data"
+docs_dir="./doc"
+script_dir="./scripts"
+
+script__install_alta_packages="installs-de-alta.sh"
+script__link_static_sound_device="link-sound-device"
+script__dot_bashrc="dot-bashrc-amendments.sh"
+script__apt_debian_packages_mirror_list="/etc/apt/sources.list"
+doc__todo="TODO-ALTA-INSTALLS.TXT"
+doc__readme="./README.txt"
+
+
+# 2009-12-01 - commented out by Ted, trying to capture several
+#  small helping scripts in the scripts directory.  See no need
+#  to list them separately as they're subject to change in name
+#  and count yet - TMH
+#
+# files_to_bundle="\
+# ${script_dir}/${script__install_alta_packages} \
+# ${script_dir}/${script__link_static_sound_device} \
+# ${script_dir}/${script__dot_bashrc} \
+# ${script__apt_debian_packages_mirror_list} \
+# ${docs_dir}/${doc__todo}"
+
+files_to_bundle="${data_dir} ${docs_dir} ${script_dir} ${doc__readme}"
+
+archive_file_of_project="${project_name}.tar"
+
+warning_string_1="WARNING"
+
+
+
+
+
+##----------------------------------------------------------------------
+##  SECTION:  script function definitions
+##----------------------------------------------------------------------
+
+dmsg()
+{
+    local message=$1
+
+    echo "${scriptname}:  $message"
+}
+
+
+
+
+
+##----------------------------------------------------------------------
+## SECTION:  main line code, main-line code . . .
+##
+## STEP:  check for project directory, 
+##----------------------------------------------------------------------
+
+dmsg "starting,"
+dmsg "This bundling script written to archive files of project '$project_name',"
+dmsg "- STEP - checking whether this project installed in '$project_dir' . . ."
+
+if [ -e $project_dir ]; then
+    dmsg "project directory found, cd'ing there . . ."
+    cd $project_dir
+else
+
+    dmsg "- INFO - project directory '${project_dir}' not found on host $host_name,"
+    dmsg "- INFO - will search for ${project_name} files in current directory,"
+fi
+
+
+
+##----------------------------------------------------------------------
+## STEP:  check for bundle directory, create if not found
+##----------------------------------------------------------------------
+
+dmsg "- STEP - checking to see if temporary file bundling directory exists . . ."
+
+if [ -e $bundle_directory ]; then
+    dmsg "bundle directory '$bundle_directory' for temporary file work found!"
+else
+    dmsg "bundling directory '${bundle_directory}' not found on host $host_name,"
+    dmsg "creating . . ."
+    mkdir ${bundle_directory}
+fi
+
+if [ $? = 1 ]; then
+    dmsg "- WARNING - unable to create a directory to hold project files!"
+    dmsg "- WARNING - project not archived, exiting early . . ."
+    exit $?
+fi
+
+
+dmsg "( will copy project files there on temporary basis before archiving them, )"
+
+
+
+##----------------------------------------------------------------------
+## STEP:  copy scripts and related files to bundle directory
+##----------------------------------------------------------------------
+
+for file in ${files_to_bundle}; do
+    if [ -f ${file} ]; then
+        dmsg "copying ${file} to bundle directory . . ."
+        ${CP} ${file} ${bundle_directory}
+    elif [ -d ${file} ]; then
+        dmsg "copying directory ${file} to bundle directory . . ."
+        ${CP} -r ${file} ${bundle_directory}
+    else
+        dmsg "${warning_string_1}:  could not find ${file}!"
+        dmsg "${warning_string_1}:  some ${project_name} files won't be included in archive."
+#        status=1
+    fi
+done
+
+
+
+
+##----------------------------------------------------------------------
+## STEP:  copy self to include in compressed archive
+##----------------------------------------------------------------------
+
+dmsg "copying install archiving script to $bundle_directory . . ."
+${CP} -p ${scriptname} ${bundle_directory}
+
+if [ -e ${bundle_directory} ]; then
+
+# 2016-04-22 FRI - Ted commenting out, can't get archive to be made . . .
+#    if [ -e ./${archive} ]; then
+#        dmsg "removing previous project archive ${archive},"
+#        rm ./${archive}
+#    fi
+#
+#    if [ -e ./${archive}.gz ]; then
+#        dmsg "removing previous compressed project archive ${archive}.gz,"
+#        rm ./${archive}.gz
+#    fi
+
+    tar cf ./${archive_file_of_project} ${bundle_directory}
+    ${GZIP} ./${archive_file_of_project}
+
+    if [ $? = 0 ]; then
+        echo "**
+** end result of this script will be a compressed archive file named '${archive_file_of_project}'.
+**"
+    else
+        echo "${warning_string_1}:  archive utility ${GZIP} returns error code '" $? "',"
+        echo "${warning_string_1}:  unable to create archive of package-config-scripts files!"
+    fi
+
+else
+    dmsg "- WARNING - directory '${bundle_directory}' for archiving project not found on host ${host_name},"
+    dmsg "- WARNING - exiting without updating project."
+    exit 2
+fi
+
+
+dmsg "done."
+
+exit 0

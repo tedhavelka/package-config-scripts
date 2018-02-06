@@ -1,0 +1,35 @@
+##----------------------------------------------------------------------
+## SECTION - additional Debian mirrors
+##----------------------------------------------------------------------
+
+deb http://ftp.us.debian.org/debian/ testing main contrib non-free
+deb-src http://ftp.us.debian.org/debian/ testing main contrib non-free
+
+deb http://linux.csua.berkeley.edu/debian/ testing main contrib non-free
+deb-src http://linux.csua.berkeley.edu/debian/ testing main contrib non-free
+
+deb http://debian.osuosl.org/debian/ testing main contrib non-free
+deb-src http://debian.osuosl.org/debian/ testing main contrib non-free
+
+deb http://ftp.utexas.edu/debian/ testing main contrib non-free
+deb-src http://ftp.utexas.edu/debian/ testing main contrib non-free
+
+deb http://mirrors.kernel.org/debian/ testing main contrib non-free
+deb-src http://mirrors.kernel.org/debian/ testing main contrib non-free
+
+
+
+## 2008-03-06  Attempt to locate and download XForms package
+##  libforms-dev . . .
+##----------------------------------------------------------------------
+
+deb http://ftp.us.debian.org/debian/ sid main contrib
+deb-src http://ftp.us.debian.org/debian/ sid main contrib
+
+
+
+## Security Updates from security.debian.org:
+
+deb http://security.debian.org/ testing/updates main contrib
+deb-src http://security.debian.org/ testing/updates main contrib
+

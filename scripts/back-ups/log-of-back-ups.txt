@@ -1,0 +1,8 @@
+test_back_up_02,, /etc/hostname,, ./back-ups/hostname--2008-07-17-12:36:42
+test_back_up_03,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-07-21-12:57:24
+test_back_up_03,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-07-21-14:39:02
+./back-ups,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-11-04-16:13:56
+./back-ups,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-11-04-16:23:05
+./back-ups,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-11-04-16:25:41
+./back-ups,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-11-04-16:28:30
+./back-ups,, /etc/dhcp3/dhclient.conf,, ./back-ups/dhclient.conf--2008-11-04-16:36:13

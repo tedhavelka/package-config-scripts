@@ -1,0 +1,315 @@
+##======================================================================
+##
+##  PROJECT:  installs-de-alta
+##
+##  FILENAME:  packages--post-install.txt
+##
+##  DESCTIPTION:
+##    List of Debian type packages used across Alta / Blue Team test
+##    stations
+##
+##
+##  MANUAL PACKAGE CHANGES:
+##
+##    2016-04-14 Thursday
+##      +  libmysqlclient15-dev  -->  libmysqlclient-dev
+##      +  xpdf-utils  -->  poppler-utils
+##      +  iceweasel  -->  firefox
+##      +  octave3.2  -->  octave
+##      +  samba-tools  -->  samba-testsuite
+##      +  mysql-client-5.0  -->  mysql-client-5.5 ( package mysql-client refers to mysql-client-5.5 on Ubuntu 14.04 LTS host )
+##      +  cupsys-bsd  -->  cups-bsd
+##      +    -->
+##      +    -->
+##      +    -->
+##
+##      +  commenting out 'emacs21'
+##      +  commenting out ''
+##
+##
+##
+##  TO DO:
+##    [ ]  2016-04-14 - check whether xfce4-session gets installed with
+##         xfce4,
+##
+##    [ ]  2016-04-14 - check whether worthwhile to add package 'lightdm',
+##
+##
+##
+##  AUTHORS AND CONTRIBUTORS:
+##
+##    Ted Havelka    ted@cs.pdx.edu
+##
+##
+##
+##======================================================================
+
+
+
+##----------------------------------------------------------------------------------------------------------
+## Fields . . . note that only the first field is used as of 2016-04-14.  Remaining fields are for
+##   package sorting purposes, makes the list more readable to have related packages next to one
+##   another - TMH
+##
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+rrdtool                   database                    -                            -                 -
+libmysqlclient-dev        database                    -                            -                 -
+
+## 2017-01-06 - updating to Ubuntu 16.04.1 LTS available package:
+# mysql-client-5.5        database                    -                            -                 -
+mysql-client              database                    -                            -                 -
+mysql-common              database                    -                            -                 -
+
+
+#
+## 2017-01-07 - xresprobe not available in Ubuntu 16.04.1 LTS package list . . .
+##  +  https://lists.ubuntu.com/archives/ubuntu-devel/2007-April/023567.html
+##  +  https://wiki.ubuntu.com/SimpleXModeSelection
+# xresprobe               utility                     system                       -                 -
+# yaird                   utility                     system                       -                 2016-04-14 commenting out - TMH
+# + "Yet Another Initial RAM Disk...", old Debian utility - TMH
+
+#
+glibc-doc                 documentation               -                            -                 -
+gnumeric-doc              documentation               -                            -                 -
+manpages                  documentation               -                            -                 -
+man-db                    documentation               -                            -                 -
+manpages-dev              documentation               -                            -                 -
+
+#
+locate                    file-management             -                            -                 provides `locate` utility
+rsync                     file-management             -                            -                 -
+bzip2                     file-management             -                            -                 -
+# cdfs-src                  file-management             -                            -                 -
+dosfstools                file-management             -                            -                 -
+smbclient                 file-management             -                            -                 -
+zip                       file-management             -                            -                 -
+unzip                     file-management             -                            -                 -
+
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+#
+xserver-xorg              display-server              -                            -                 https://en.wikipedia.org/wiki/X_Window_System
+
+#
+# gdm                       session-manager           -                            -                 2017-01-05 Ted commenting out
+xdm                       session-manager             -                            -                 -
+# lxdm                      session-manager             -                            -                 2018-02-01 package lxdm not available in Debian 8.9 (Jessie)
+lightdm                   session-manager             -                            -                 -
+
+#
+xfce4                     window-manager              -                            -                 -
+xfce4-dbg                 window-manager              -                            -                 -
+xfce4-panel               desktop-component           -                            -                 -
+xfce4-panel-dbg           desktop-component           -                            -                 -
+icewm                     window-manager              -                            -                 -
+openbox                   window-manager              -                            -                 -
+
+#
+synergy                   desktop                     -                            -                 -
+x2x                       desktop                     -                            -                 -
+xscreensaver              desktop                     -                            -                 -
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+xfonts-base               font                        -                            -                 -
+xfonts-100dpi             font                        -                            -                 -
+xfonts-75dpi              font                        -                            -                 -
+xfonts-scalable           font                        -                            -                 -
+xfonts-terminus           font                        -                            -                 -
+xfonts-terminus-dos       font                        -                            -                 -
+xfonts-terminus-oblique   font                        -                            -                 -
+xfonts-intl-arabic        font                        -                            -                 -
+xfonts-cyrillic           font                        -                            -                 -
+xfonts-intl-asian         font                        -                            -                 -
+xfonts-intl-chinese       font                        -                            -                 -
+xfonts-intl-european      font                        -                            -                 -
+xfonts-intl-japanese      font                        -                            -                 -
+
+## 2017-01-07 - xfonts-mathml package not available in Ubuntu 16.04.1 LTS package list . . .
+# xfonts-mathml           font                        -                            -                 -
+
+xfonts-unifont          font                        -                            -                 -
+
+## 2017-01-06 - updating to Ubuntu 16.04.1 LTS available package:
+# ttf-indic-fonts           font                        -                            -                 -
+fonts-indic                font                        -                            -                 -
+
+gsfonts                   font                        -                            -                 -
+
+## 2017-01-06 - updating to Ubuntu 16.04.1 LTS available package:
+# libssl0.9.8               network                     cryptographic                -                2017-01-06 commented out on Ubuntu 16.04.1 LTS host - TMH
+libssl1.0.0               network                     cryptographic                -                 -
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+# emacs21                   editor                    textual                      -                 2016-04-14 commented out - TMH
+beav                      editor                      -                            -                 -
+ghex                      editor                      -                            -                 -
+vim                       editor                      textual                      -                 -
+vim-doc                   documentation               -                            -                 -
+gedit                     editor                      textual                      -                 -
+xfig                      editor                      schematic                    -                 -
+dia                       editor                      diagram                      -                 -
+
+#
+bc                        mathematical                -                            -                 -
+gnuplot                   mathematical                -                            -                 -
+gnuplot-doc               mathematical                -                            -                 -
+octave                    mathematical                -                            -                 -
+octave-doc                mathematical                -                            -                 -
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+minicom                   utility                communication                     -                 -
+talk                      utility                communication                     -                 -
+talkd                     utility                communication                     -                 -
+expect                    utility                     -                            -       scripting and automation 
+rstatd                    administration              -                            -                 -
+rstat-client              administration              -                            -                 -
+gip                       utility                     -                            -                 -
+
+#
+openssh-client            networking                  -                            -                 -
+openssh-server            networking                  -                            -                 -
+openssh-blacklist         networking                  -                            -                 -
+openssh-blacklist-extra   networking                  -                            -                 -
+wireshark                 networking                  -                            -                 -
+wireshark-doc             networking                  -                            -                 -
+
+#
+cups-client                printing                    -                            -                 -
+cups-bsd                  printing                    -                            -                 -
+
+#
+vlc                       media                       -                            -                 -
+gtkam                     media                       -                            -                 -
+gphoto2                   media                       -                            -                 -
+
+#
+html2ps                   file-conversion             -                            -                 -
+#libjpeg-dev               file-conversion             -                            -      commented 2018-02-01 - unmet dependency
+#libjpeg62-turbo-dev       dependency file             -                            -      commented 2018-02-01 - unmet dependency
+#libjpeg62-turbo           dependency file             -                            -      commented 2018-02-01 - unmet dependency
+texi2html                 file-conversion             -                            -                 -
+
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+#
+gcc                       programming                 tool chain                   compiler    C language compiler
+gcc-doc                   programming                 tool chain                   compiler    C language compiler
+
+ddd-doc                   programming                 tool-chain                   documentation     -
+gdb                       programming                 debugging                    -                 software development and debugging
+ddd                       programming                 -                            -                 -
+
+#
+cvs                       version-control             -                            -                 -
+subversion                version-control             -                            -                 -
+subversion-tools          version-control             -                            -                 -
+git                       version-control             -                            -                 -
+git-man                   version-control             -                            -                 -
+
+
+#
+#qt4-dev-tools             programming                 graphic-framework            -                 -
+#qt4-doc                   programming                 graphic-framework            -                 -
+#qt4-designer              programming                 graphic-framework            -                 -
+#qt4-qmake                 programming                 graphic-framework            -                 -
+#qt4-qtconfig              programming                 graphic-framework            -                 -
+qt5-default              programming                 graphic-framework            -                 -
+# qtbase5              programming                 graphic-framework            -                 -
+qtbase5-dev              programming                 graphic-framework            -                 -
+qtbase5-dbg              programming                 graphic-framework            -                 -
+qtbase5-dev-tools-dbg              programming                 graphic-framework            -                 -
+qt5-doc              programming                 graphic-framework            -                 -
+qt5-qmake                 programming                 graphic-framework            -                 -
+qtcreator                 programming                 IDE                          -                 -
+qtcreator-doc             programming                 IDE                          documentation     -
+
+libforms-bin              programming                 graphic-framework            -                 -
+libforms-dev              programming                 graphic-framework            -                 -
+libforms-doc              programming                 graphic-framework            -                 -
+
+gsoap                     programming                 library                      message encapsulation                -
+gsoap-dbg                 programming                 library                      message encapsulation                -
+
+
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+bison                     programming                 parser-generator             -                 -
+dialog                    programming                 shell                        -                 -
+flex                      programming                 lexical-analyser-generator   -                 -
+gputils                   programming                 embedded                     Microchip-PIC     -
+sdcc                      programming                 embedded                     Phillips-micro    -
+# libglib1.2-dev            programming                 supporting                   -                 -
+libglib2.0-dev            programming                 supporting                   -                 -
+libglib2.0-doc            programming                 supporting documentation     -                 -
+libglib2.0-0-dbg          programming                 supporting                   -                 -
+
+#
+alsa-utils                audio                       -                            -                 -
+flite                     audio                       -                            -                 -
+sox                       audio                       -                            -                 -
+
+#
+xterm                     terminal-emulator           -                            -                 -
+rxvt                      terminal-emulator           -                            -                 -
+evince                    viewer                      pdf                          -                 -
+xpdf                      viewer                      pdf                          -                 -
+poppler-utils             command line utils          supporting                   -                 -
+gv                        viewer                      post-script                  -                 -
+gerbv                     viewer                      pcb                          -                 -
+
+#
+less                      utility                     -                            -                 -
+
+#
+# dillo                     web-browser                 -                            -      commented 2009-12-03
+# firefox                   web-browser                 -                            -      commented 2018-02-01 Firefox not available in Debian 8.9, nor Debian in general           
+x11-xserver-utils         graphic-back-end            -                            -                 -
+
+
+
+
+##----------------------------------------------------------------------------------------------------------
+## PACKAGE                CATEGORY-1                  CATEGORY-2                   CATEGORY-3        NOTES
+##----------------------------------------------------------------------------------------------------------
+
+# samba                     file-management             -                            -                 -
+# samba-doc                 -                           -                            -                 -
+# samba-testsuite           -                           -                            -                 -
+# samba-dbg                 -                           -                            -                 -
+
+
+
+
+
+
+
+
+
+# --- EOF ---

@@ -1,0 +1,9 @@
+2008-07-17
+Excerpt from:  http://tldp.org/LDP/abs/html/moreadv.html#FINDREF0
+
+
+
+If COMMAND contains {}, then find  substitutes the full path name of the selected file for "{}".
+
+find ~/ -name 'core*' -exec rm {} \;
+# Removes all core dump files from user's home directory.
