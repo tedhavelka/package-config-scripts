@@ -16,11 +16,27 @@
 ##     
 ##  TO-DO:
 ##     
-##    [ ]  add support for multiple package 'recipes', such as 
-##         desktop server versus LAMP or web server package sets,
+##    [ ]  2018-02-05 MON - add support for multiple package 'recipes',
+##         such as desktop server versus LAMP or web server package
+##         sets,
 ##     
 ##     
 ##  NOTES ON IMPLEMENTATION: . . .
+##     As of 2018-02-06 this script reads one text file to build a
+##   recipe or list of Debian packages to install on a given Linux
+##   host.  The filename is defined locally.  To support alternate
+##   system recipes or sets of packages, a simple way to do so would
+##   be to have configuration recipes in named files.  Some example
+##   config recipe filenames could be . . .
+##
+##     *  packages-software-development.txt
+##     *  packages-LAMP-server.txt
+##     *  packages-graphics-and-media.txt
+##
+##
+##
+##
+##
 ##
 ##   For more information about this project be sure to read
 ##   the files 'ChangeLog' and 'Overview' in the doc directory of
